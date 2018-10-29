@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EM.Calc.ConsoleApp
 {
@@ -10,6 +7,17 @@ namespace EM.Calc.ConsoleApp
     {
         static void Main(string[] args)
         {
+            string operation, operands;
+            Console.WriteLine("Enter operation: ");
+            operation = Console.ReadLine();
+
+            Console.WriteLine("Enter operands: ");
+            operands = Console.ReadLine();
+
+            Core.Calc calc = new Core.Calc();
+            int res = calc.Calculate(operation, operands.Split(' ').Select((n) => Convert.ToInt32(n)).ToArray());
+            Console.WriteLine("{0} {1} = {2}", operation, operands, res);
+            Console.ReadKey();
         }
     }
 }

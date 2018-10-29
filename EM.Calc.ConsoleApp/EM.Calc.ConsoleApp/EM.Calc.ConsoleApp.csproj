@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EM.Calc.Core\EM.Calc.Core.csproj">
+      <Project>{b8c671f7-bf8b-42ac-bf25-564b40937937}</Project>
+      <Name>EM.Calc.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
