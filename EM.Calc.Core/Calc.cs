@@ -5,40 +5,55 @@ namespace EM.Calc.Core
 {
     public class Calc
     {
-        public int Calculate(string op, int[] args)
+        public IOperation[] Operations { get; set; }
+   
+        public Calc()
         {
-            if (op == "sum")
-                return Sum(args);
-            else if (op == "sub")
-                return Sub(args);
-            else if (op == "pow")
-                return Pow(args);
-            else if (op == "mul")
-                return Mult(args);
-            return 0;
+            Operations = new IOperation[]
+                {
+                    new SumOperation(),
+                    new NewOperation()
+                };
         }
 
-        public int Mult(int[] args)
+        public double? Calculate(string op, double[] args)
+        {
+            foreach (var operation in Operations)
+            {
+                if (operation.Name == op)
+                {
+                    operation.Operands = args;
+                    return operation.Execute();
+                }
+            }
+
+            throw new Exception("Operation not found");
+        }
+
+        public double? Mult(double[] args)
         {
             return args.Aggregate((lhs, rhs) => lhs * rhs);
         }
 
-        public int Pow(int[] args)
+        public double? Pow(double[] args)
         {
-            return args.Aggregate((lhs, rhs) => (int)Math.Pow((double)lhs, (double)rhs));
+            return args.Aggregate((lhs, rhs) => Math.Pow(lhs, rhs));
         }
 
-        public int Sum(int[] args)
+        [Obsolete("Don't use it! Use Calculate!")]
+        public double? Sum(double[] args)
         {
-            return args.Aggregate((lhs, rhs) => lhs + rhs);
+            SumOperation sum = new SumOperation();
+            sum.Operands = args;
+            return sum.Execute();
         }
 
-        public int Sub(int[] args)
+        public double? Sub(double[] args)
         {
             return args.Aggregate((lhs, rhs) => lhs - rhs);
         }
 
-        public int New(int[] args)
+        public double? New(double[] args)
         {
             return 0;
         }

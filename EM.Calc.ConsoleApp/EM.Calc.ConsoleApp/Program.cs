@@ -7,10 +7,10 @@ namespace EM.Calc.ConsoleApp
     {
         static void Main(string[] args)
         {
-            string[] opers = { "pow", "sum", "sub", "mul", "new" };
-            string operation;
-            int[] values = new int[1];
             var calc = new Core.Calc();
+            string[] opers = calc.Operations.Select(op => op.Name).ToArray(); 
+            string operation;
+            double[] values;
 
             if (args.Length == 0)
             {
@@ -24,15 +24,15 @@ namespace EM.Calc.ConsoleApp
 
                 Console.WriteLine("Enter operands: ");
                 var operands = Console.ReadLine();
-                values = operands.Split(new[] { " ", ";"}, StringSplitOptions.RemoveEmptyEntries).Select((n) => Convert.ToInt32(n)).ToArray();
+                values = operands.Split(new[] { " ", ";"}, StringSplitOptions.RemoveEmptyEntries).Select((n) => Convert.ToDouble(n)).ToArray();
             }
             else
             {
                 operation = args[0].ToLower();
-                values = args.Select((n) => Convert.ToInt32(n)).ToArray();              
+                values = args.Select((n) => Convert.ToDouble(n)).ToArray();              
             }
 
-            int res = calc.Calculate(operation, values);
+            double? res = calc.Calculate(operation, values);
             Console.WriteLine(res);
             Console.ReadKey();
         }
