@@ -1,19 +1,54 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace EM.Calc.Core
 {
     public class Calc
     {
-        public IOperation[] Operations { get; set; }
-   
+        public List<IOperation> Operations { get; set; }
+
         public Calc()
         {
-            Operations = new IOperation[]
+            Operations = new List<IOperation>();
+
+            string DLLsDirecoryPath = ".\\";
+            FileInfo[] DLLFilePath = new DirectoryInfo(DLLsDirecoryPath).GetFiles("*.dll");
+
+            foreach (var dll in DLLFilePath)
+            {
+                //Get assemly from file
+                Assembly assembly = Assembly.LoadFile(dll.FullName);
+                AddOperation(assembly);
+            }
+        }
+
+        /// <summary>
+        /// Add instances of clasees, 
+        /// which implement IOperation interface
+        /// to list of operations
+        /// </summary>
+        /// <param name="assembly"></param>
+        private void AddOperation(Assembly assembly)
+        {
+            //Download all types from assembly
+            Type[] types = assembly.GetTypes();
+
+            foreach (var type in types)
+            {
+                //if class implements the interface
+                if (type.GetInterface("IOperation") != null)
                 {
-                    new SumOperation(),
-                    new NewOperation()
-                };
+                    //add the class instance to operations list
+                    var instance = Activator.CreateInstance(type);
+                    if (instance is IOperation operation)
+                    {
+                        Operations.Add(operation);
+                    }
+                }
+            }
         }
 
         public double? Calculate(string op, double[] args)
@@ -26,36 +61,59 @@ namespace EM.Calc.Core
                     return operation.Execute();
                 }
             }
-
-            throw new Exception("Operation not found");
+            return null;
         }
 
+        #region old
+        [Obsolete("Don't use it, use Calculate instead")]
         public double? Mult(double[] args)
         {
-            return args.Aggregate((lhs, rhs) => lhs * rhs);
+            MultOperation multOperation = new MultOperation
+            {
+                Operands = args
+            };
+            return multOperation.Execute();
         }
 
+        [Obsolete("Don't use it, use Calculate instead")]
         public double? Pow(double[] args)
         {
-            return args.Aggregate((lhs, rhs) => Math.Pow(lhs, rhs));
+            PowOperation powOperation = new PowOperation
+            {
+                Operands = args
+            };
+            return powOperation.Execute();
         }
 
-        [Obsolete("Don't use it! Use Calculate!")]
+        [Obsolete("Don't use it! Use Calculate instead")]
         public double? Sum(double[] args)
         {
-            SumOperation sum = new SumOperation();
-            sum.Operands = args;
-            return sum.Execute();
+            SumOperation sumOperation = new SumOperation
+            {
+                Operands = args
+            };
+            return sumOperation.Execute();
         }
 
+        [Obsolete("Don't use it! Use Calculate instead")]
         public double? Sub(double[] args)
         {
-            return args.Aggregate((lhs, rhs) => lhs - rhs);
+            SubOperation subOperation = new SubOperation
+            {
+                Operands = args
+            };
+            return subOperation.Execute();
         }
 
+        [Obsolete("Don't use it! Use Calculate instead")]
         public double? New(double[] args)
         {
-            return 0;
+            NewOperation newOperation = new NewOperation
+            {
+                Operands = args
+            };
+            return newOperation.Execute();
         }
+        #endregion
     }
 }

@@ -1,18 +1,19 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace EM.Calc.Core
 {
-    public class NewOperation : IOperation
+    public class PowOperation : IOperation
     {
         public double[] Operands { get; set; }
 
         public double? Result { get; private set; }
 
-        public string Name => "new";
+        public string Name => "pow";
 
         public double? Execute()
         {
-            Result = double.PositiveInfinity; 
+            Result = Operands.Aggregate((n, p) => Math.Pow(n, p));
             return Result;
         }
     }
