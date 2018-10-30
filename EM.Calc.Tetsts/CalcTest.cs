@@ -28,7 +28,7 @@ namespace EM.Calc.Tetsts
             var result = calc.Sub(new[] { 100, 80, 10 });
 
             Assert.AreEqual(sub, result);
-        }
+    }
 
         [TestMethod]
         public void TestPow()

@@ -37,5 +37,10 @@ namespace EM.Calc.Core
         {
             return args.Aggregate((lhs, rhs) => lhs - rhs);
         }
+
+        public int New(int[] args)
+        {
+            return 0;
+        }
     }
 }

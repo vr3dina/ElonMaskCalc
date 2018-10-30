@@ -7,16 +7,33 @@ namespace EM.Calc.ConsoleApp
     {
         static void Main(string[] args)
         {
-            string operation, operands;
-            Console.WriteLine("Enter operation: ");
-            operation = Console.ReadLine();
+            string[] opers = { "pow", "sum", "sub", "mul", "new" };
+            string operation;
+            int[] values = new int[1];
+            var calc = new Core.Calc();
 
-            Console.WriteLine("Enter operands: ");
-            operands = Console.ReadLine();
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Aviable operations: ");
+                foreach (var item in opers)
+                {
+                    Console.WriteLine("{0} ", item);
+                }
+                Console.WriteLine("Enter operation: ");
+                operation = Console.ReadLine();
 
-            Core.Calc calc = new Core.Calc();
-            int res = calc.Calculate(operation, operands.Split(' ').Select((n) => Convert.ToInt32(n)).ToArray());
-            Console.WriteLine("{0} {1} = {2}", operation, operands, res);
+                Console.WriteLine("Enter operands: ");
+                var operands = Console.ReadLine();
+                values = operands.Split(new[] { " ", ";"}, StringSplitOptions.RemoveEmptyEntries).Select((n) => Convert.ToInt32(n)).ToArray();
+            }
+            else
+            {
+                operation = args[0].ToLower();
+                values = args.Select((n) => Convert.ToInt32(n)).ToArray();              
+            }
+
+            int res = calc.Calculate(operation, values);
+            Console.WriteLine(res);
             Console.ReadKey();
         }
     }
