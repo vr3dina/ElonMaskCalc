@@ -36,10 +36,13 @@ namespace EM.Calc.Core
             //Download all types from assembly
             Type[] types = assembly.GetTypes();
 
+            var needType = typeof(IOperation);
+
             foreach (var type in types)
             {
+                var interfaces = type.GetInterfaces();
                 //if class implements the interface
-                if (type.GetInterface("IOperation") != null)
+                if (interfaces.Contains(needType))
                 {
                     //add the class instance to operations list
                     var instance = Activator.CreateInstance(type);
