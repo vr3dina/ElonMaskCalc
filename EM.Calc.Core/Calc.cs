@@ -14,7 +14,7 @@ namespace EM.Calc.Core
         {
             Operations = new List<IOperation>();
 
-            string DLLsDirecoryPath = ".\\";
+            string DLLsDirecoryPath = Directory.GetCurrentDirectory();
             FileInfo[] DLLFilePath = new DirectoryInfo(DLLsDirecoryPath).GetFiles("*.dll");
 
             foreach (var dll in DLLFilePath)
@@ -42,7 +42,7 @@ namespace EM.Calc.Core
             {
                 var interfaces = type.GetInterfaces();
                 //if class implements the interface
-                if (interfaces.Contains(needType))
+                if (interfaces.Contains(needType) && type.IsClass)
                 {
                     //add the class instance to operations list
                     var instance = Activator.CreateInstance(type);
