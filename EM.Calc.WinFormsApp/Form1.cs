@@ -86,5 +86,13 @@ namespace EM.Calc.WinFormsApp
         {
              lblResult.Text = "";
         }
+
+        private void tbInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!IsCorrect(tbInput.Text + e.KeyChar) && e.KeyChar != 8 && e.KeyChar != '-')
+            {
+                e.Handled = true;
+            }
+        }
     }
 }
