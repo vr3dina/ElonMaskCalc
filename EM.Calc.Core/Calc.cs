@@ -38,11 +38,11 @@ namespace EM.Calc.Core
 
             var needType = typeof(IOperation);
 
-            foreach (var type in types)
+            foreach (var type in types.Where(t => t.IsClass && !t.IsAbstract))
             {
                 var interfaces = type.GetInterfaces();
                 //if class implements the interface
-                if (interfaces.Contains(needType) && type.IsClass)
+                if (interfaces.Contains(needType))
                 {
                     //add the class instance to operations list
                     var instance = Activator.CreateInstance(type);

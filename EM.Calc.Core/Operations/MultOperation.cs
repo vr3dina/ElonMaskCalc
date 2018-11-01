@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace EM.Calc.Core
 {
-    public class MultOperation : IOperation
+    public class MultOperation : IExtOperation
     {
         public double[] Operands { get; set; }
 
@@ -15,5 +16,12 @@ namespace EM.Calc.Core
             Result = Operands.Aggregate((lhs, rhs) => lhs * rhs);
             return Result;
         }
+
+        public Guid Uid => Guid.NewGuid();
+
+        public string Description => "Перемножает все элементы";
+
+        public int? ArgCount => 0;
+
     }
 }

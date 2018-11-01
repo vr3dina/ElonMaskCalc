@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EM.Calc.Core;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -84,7 +85,13 @@ namespace EM.Calc.WinFormsApp
 
         private void cbOperation_SelectedIndexChanged(object sender, EventArgs e)
         {
-             lblResult.Text = "";
+            lblResult.Text = "";
+
+            var operation = Calc.Operations
+                .OfType<IExtOperation>()
+                .FirstOrDefault(op => op.Name == cbOperation.Text);
+
+            toolTip1.SetToolTip(cbOperation, operation?.Description);
         }
 
         private void tbInput_KeyPress(object sender, KeyPressEventArgs e)

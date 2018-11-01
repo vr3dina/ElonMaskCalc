@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.cbOperation = new System.Windows.Forms.ComboBox();
             this.lblResultL = new System.Windows.Forms.Label();
             this.tbInput = new System.Windows.Forms.TextBox();
@@ -40,6 +41,7 @@
             this.lblOperation = new System.Windows.Forms.Label();
             this.lblOperands = new System.Windows.Forms.Label();
             this.lblResult = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // cbOperation
@@ -209,6 +211,7 @@
         private System.Windows.Forms.Label lblOperation;
         private System.Windows.Forms.Label lblOperands;
         private System.Windows.Forms.Label lblResult;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

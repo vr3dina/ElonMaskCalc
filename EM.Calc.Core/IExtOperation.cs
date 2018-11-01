@@ -2,7 +2,7 @@
 
 namespace EM.Calc.Core
 {
-    interface IExtOperation : IOperation
+    public interface IExtOperation : IOperation
     {
         /// <summary>
         /// Unique identificator
