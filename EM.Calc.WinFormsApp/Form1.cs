@@ -64,6 +64,8 @@ namespace EM.Calc.WinFormsApp
                 lblInputErr.Text = "Ошибка ввода операндов";
                 btnExec.Enabled = false;
             }
+            if (tbInput.Text.Length == 0)
+                btnExec.Enabled = false;
         }
 
         /// <summary>
@@ -76,8 +78,13 @@ namespace EM.Calc.WinFormsApp
         {
             //magic strings for parsing input
             string number = @"([-+]?\d+,?\d*)",
-                pattern = $@"^(\s*{number}\s*(\s+{number}\s*)*)$";
+                pattern = $@"^((\s*{number}\s*)?(\s+{number}\s*)*)$";
             return (Regex.IsMatch(input, pattern));
+        }
+
+        private void cbOperation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+             lblResult.Text = "";
         }
     }
 }
