@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Calc.Core", "..\EM.Calc.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Calc.WinFormsApp", "..\EM.Calc.WinFormsApp\EM.Calc.WinFormsApp.csproj", "{6FB64026-A8DF-478A-B814-2834C96DA225}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Calc.Web", "..\EM.Calc.Web\EM.Calc.Web.csproj", "{F2A8B8A0-ECA4-4466-B4B7-1FF1B76E05EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6FB64026-A8DF-478A-B814-2834C96DA225}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FB64026-A8DF-478A-B814-2834C96DA225}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FB64026-A8DF-478A-B814-2834C96DA225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2A8B8A0-ECA4-4466-B4B7-1FF1B76E05EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2A8B8A0-ECA4-4466-B4B7-1FF1B76E05EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2A8B8A0-ECA4-4466-B4B7-1FF1B76E05EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2A8B8A0-ECA4-4466-B4B7-1FF1B76E05EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,14 +14,21 @@ namespace EM.Calc.Core
         {
             Operations = new List<IOperation>();
 
-            string DLLsDirecoryPath = Directory.GetCurrentDirectory();
-            FileInfo[] DLLFilePath = new DirectoryInfo(DLLsDirecoryPath).GetFiles("*.dll");
+            string DLLsDirecoryPath = AppDomain.CurrentDomain.BaseDirectory;
+            FileInfo[] DLLFilePath = new DirectoryInfo(DLLsDirecoryPath).GetFiles("*.dll", SearchOption.AllDirectories);
 
             foreach (var dll in DLLFilePath)
             {
-                //Get assemly from file
-                Assembly assembly = Assembly.LoadFile(dll.FullName);
-                AddOperation(assembly);
+                try
+                {
+                    //Get assemly from file
+                    Assembly assembly = Assembly.LoadFrom(dll.FullName);
+                    AddOperation(assembly);
+                }
+                catch
+                {
+
+                }
             }
         }
 
@@ -33,25 +40,35 @@ namespace EM.Calc.Core
         /// <param name="assembly"></param>
         private void AddOperation(Assembly assembly)
         {
-            //Download all types from assembly
-            Type[] types = assembly.GetTypes();
-
-            var needType = typeof(IOperation);
-
-            foreach (var type in types.Where(t => t.IsClass && !t.IsAbstract))
+            try
             {
-                var interfaces = type.GetInterfaces();
-                //if class implements the interface
-                if (interfaces.Contains(needType))
+                //Download all types from assembly
+                Type[] types = assembly.GetTypes();
+
+                var needType = typeof(IOperation);
+
+                foreach (var type in types.Where(t => t.IsClass && !t.IsAbstract))
                 {
-                    //add the class instance to operations list
-                    var instance = Activator.CreateInstance(type);
-                    if (instance is IOperation operation)
+                    var interfaces = type.GetInterfaces();
+
+                    //if class implements the interface
+                    if (interfaces.Contains(needType))
                     {
-                        Operations.Add(operation);
+                        //add the class instance to operations list
+                        var instance = Activator.CreateInstance(type);
+                        if (instance is IOperation operation)
+                        {
+                            Operations.Add(operation);
+                        }
                     }
                 }
             }
+            catch (Exception)
+            {
+
+
+            }
+
         }
 
         public double? Calculate(string op, double[] args)
