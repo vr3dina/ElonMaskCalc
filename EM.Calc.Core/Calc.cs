@@ -8,27 +8,33 @@ namespace EM.Calc.Core
 {
     public class Calc
     {
-        public List<IOperation> Operations { get; set; }
+        public IList<IOperation> Operations { get; set; }
 
-        public Calc()
+        public Calc() : this("")
+        {
+        }
+
+
+        public Calc(string DLLDirectorypath)
         {
             Operations = new List<IOperation>();
 
-            string DLLsDirecoryPath = AppDomain.CurrentDomain.BaseDirectory;
-            FileInfo[] DLLFilePath = new DirectoryInfo(DLLsDirecoryPath).GetFiles("*.dll", SearchOption.AllDirectories);
-
-            foreach (var dll in DLLFilePath)
+            if (string.IsNullOrWhiteSpace(DLLDirectorypath))
             {
-                try
-                {
-                    //Get assemly from file
-                    Assembly assembly = Assembly.LoadFrom(dll.FullName);
-                    AddOperation(assembly);
-                }
-                catch
-                {
+                DLLDirectorypath = Environment.CurrentDirectory;
+            }
+            else
+            {
+                LoadOperation(Assembly.GetExecutingAssembly());
+            }
 
-                }
+            var DLLs = Directory.GetFiles(DLLDirectorypath, "*.dll");
+
+            foreach (var dll in DLLs)
+            {
+                //Get assembly from file
+                Assembly assembly = Assembly.LoadFrom(dll);
+                LoadOperation(assembly);
             }
         }
 
@@ -38,37 +44,28 @@ namespace EM.Calc.Core
         /// to list of operations
         /// </summary>
         /// <param name="assembly"></param>
-        private void AddOperation(Assembly assembly)
+        private void LoadOperation(Assembly assembly)
         {
-            try
+            //Download all types from assembly
+            Type[] types = assembly.GetTypes();
+
+            var needType = typeof(IOperation);
+
+            foreach (var type in types.Where(t => t.IsClass && !t.IsAbstract))
             {
-                //Download all types from assembly
-                Type[] types = assembly.GetTypes();
+                var interfaces = type.GetInterfaces();
 
-                var needType = typeof(IOperation);
-
-                foreach (var type in types.Where(t => t.IsClass && !t.IsAbstract))
+                //if class implements the interface
+                if (interfaces.Contains(needType))
                 {
-                    var interfaces = type.GetInterfaces();
-
-                    //if class implements the interface
-                    if (interfaces.Contains(needType))
+                    //add the class instance to operations list
+                    var instance = Activator.CreateInstance(type);
+                    if (instance is IOperation operation)
                     {
-                        //add the class instance to operations list
-                        var instance = Activator.CreateInstance(type);
-                        if (instance is IOperation operation)
-                        {
-                            Operations.Add(operation);
-                        }
+                        Operations.Add(operation);
                     }
                 }
             }
-            catch (Exception)
-            {
-
-
-            }
-
         }
 
         public double? Calculate(string op, double[] args)

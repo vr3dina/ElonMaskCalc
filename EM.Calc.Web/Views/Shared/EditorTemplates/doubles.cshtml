@@ -1,0 +1,12 @@
+﻿@model double[]
+
+@if (Model == null)
+{
+    <input type="number" name="Args" class="form-control" />
+    return;
+}
+
+@foreach (var item in Model)
+{
+    <input type="number" name="Args" value="@item" class="form-control" />
+}

@@ -1,8 +1,9 @@
-﻿@{
+﻿@using EM.Calc.Web.Models
+@model OperationResult
+
+@{
     ViewBag.Title = "Calc";
 }
 <h2>@ViewBag.Title</h2>
 
-<div>
-    <p>@ViewBag.Operation @ViewBag.Operands = @ViewBag.Result</p>
-</div>
+<p>@Model.Name = @Model.Result</p>
