@@ -6,18 +6,18 @@
 
 <h2>Давайте посчитаем</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Input", "Calc", FormMethod.Post, new { id = "calcForm" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.OperationName, htmlAttributes: new { @class = "control-label col-md-2" })
-            
+
             <div class="col-md-10">
-                @Html.DropDownListFor(m => m.OperationName, new SelectList(Model.Operations.Select(op => op.Name)), htmlAttributes: new { @class = "form-control"})
+                @Html.DropDownListFor(m => m.OperationName, new SelectList(Model.Operations.Select(op => op.Name)), htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.OperationName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -32,8 +32,24 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Рассчитать" class="btn btn-default" />
+                @Helpers.Button("Вычислить", "AsyncCalc()")
             </div>
         </div>
     </div>
 }
+
+<div id="result"></div>
+
+<script>
+    function AsyncCalc() {
+        $.ajax({
+            url: '@Url.Action("AsyncInput", "Calc")',
+            type: 'POST',
+            cache: false,
+            data: $("#calcForm").serializeArray(),
+            success: function (result) {
+                $("#result").html(result)
+            }
+        });
+    }
+</script>

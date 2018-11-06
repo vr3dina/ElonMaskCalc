@@ -1,33 +1,42 @@
-﻿addInputAfter(this);
+﻿$(document).ready(function () {
 
-function keyPressed(e) {
-    var keyCode;
+    var BAKSPACE = 8;
+    var SPACE = 32;
+    var SELECTOR = "input[type=number]";
 
-    if (this.event) {
-        keyCode = this.event.keyCode;
-    }
-    else if (e) {
-        keyCode = e.which;
-    }
+    $(SELECTOR).keydown(function (e) {
+        debugger;
+        var inputs = $(SELECTOR);
+        var parent = $(this).parent("div");
 
-    if (keyCode == 32) {
-        addInputAfter(this);
-    }
+        // если нажали на SPACE и в данном инпуте уже есть значение
+        // то запускаем процедуру клонирования
+        if (e.keyCode === SPACE && $(this).val()) {
 
-    var args = document.getElementsByName("Args");
-    if (this.value.length == 0 && keyCode == 8 && args.length > 1) {
-        var focusEl = this.previousSibling;
-        document.getElementById("inputNumbers").removeChild(this);
-        focusEl.focus();
-    }
-}
+            $(this)
+                .clone(true) // клонируем
+                .val(null) // зануляем значение
+                .appendTo(parent) // добавляем на страницу
+                .focus(); // ставим фокус
 
-function addInputAfter(el) {
-    var cont = document.getElementById("inputNumbers");
-    var input = document.createElement("input");
-    input.type = "number";
-    input.name = "Args";
-    input.className = "form-control";
-    input.addEventListener("keydown", keyPressed);
-    cont.insertBefore(input, el.nextSibling).focus();
-}
+            return false;
+        }
+
+        // если нажали BAKSPACE и стирать больше нечего
+        // и в списке инпутов еще есть что удалить
+        if (e.keyCode === BAKSPACE && !$(this).val() && parent.children(SELECTOR).length > 1) {
+           
+            // получаем индекс текущего
+            var index = inputs.index($(this));
+
+            // удаляем элемент
+            $(this).remove();
+
+            // ставим фокус на предыдущий или первый элемент
+            inputs.eq(index === 0 ? 1 : index - 1).focus();
+
+            return false;
+        }
+    });
+
+});

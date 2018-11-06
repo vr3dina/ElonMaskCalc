@@ -6,6 +6,11 @@ namespace EM.Calc.Web.Models
 {
     public class InputModel
     {
+        public InputModel()
+        {
+            Operations = new List<IOperation>();
+        }
+
         [Display(Name = "Операция")]
         [Required(ErrorMessage = "Нам обязательно нужно знать операцию")]
         public string OperationName { get; set; }

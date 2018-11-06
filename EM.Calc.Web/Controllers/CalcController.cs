@@ -49,6 +49,24 @@ namespace EM.Calc.Web.Controllers
             return View("Execute", res);
         }
 
+        [HttpPost]
+        public PartialViewResult AsyncInput(InputModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+
+            if (!calc.Operations.Any(op => op.Name == model.OperationName))
+            {
+                ModelState.AddModelError("OperationName", "Такой операции нет");
+                return null;
+            }
+
+            var res = Calc(model.OperationName, model.Args);
+            return PartialView("Execute", res);
+        }
+
         private OperationResult Calc(string oper, double[] args)
         {
             var res = calc.Calculate(oper, args);

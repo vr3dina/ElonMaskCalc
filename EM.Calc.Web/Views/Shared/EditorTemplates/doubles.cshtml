@@ -1,15 +1,14 @@
 ﻿@model double[]
 
-<script src="~/Scripts/addingControlers.js"></script>
 
 @if (Model == null)
 {
-    //<input onkeydown="keyPressed(this)" type="number" name="Args" class="form-control" />
-
-    return;
+    <input type="number" name="@Html.NameForModel()"  class="form-control" />
 }
-
-@foreach (var item in Model)
+else
 {
-    <input type="number" name="Args" value="@item" class="form-control" />
+    foreach (var item in Model)
+    {
+        <input type="number" name="@Html.NameForModel()" value="@item" class="form-control" />
+    }
 }
