@@ -152,6 +152,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CalcController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OperationResultController.cs" />
+    <Compile Include="DB\DBHelper.cs" />
     <Compile Include="Extentions\Helpers.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -161,6 +163,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\ElonMusk.mdf" />
+    <Content Include="App_Data\ElonMusk_log.ldf">
+      <DependentUpon>ElonMusk.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -205,9 +211,13 @@
     <Content Include="Views\Calc\Input.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\doubles.cshtml" />
     <Content Include="Views\Shared\Now.cshtml" />
+    <Content Include="Views\OperationResult\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <ProjectReference Include="..\EM.Calc.ConsoleApp\EM.Calc.DB\EM.Calc.DB.csproj">
+      <Project>{7c540fac-ac2c-420a-8548-ad3a027d1792}</Project>
+      <Name>EM.Calc.DB</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -222,6 +232,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

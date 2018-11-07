@@ -1,0 +1,8 @@
+﻿<div>
+    Operation Result
+</div>
+
+@foreach (var item in ViewBag.OpRes)
+{
+    @Html.FormatValue(item, $"Id: {item.Id}\tRes:{item.Result}\tArgs: {item.Args}\tCreationDate: {item.CreationDate}")
+}
