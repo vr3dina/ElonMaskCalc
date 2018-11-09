@@ -14,10 +14,17 @@ namespace EM.Calc.DB
 
         public DateTime? CreationDate { get; set; }
 
-        public int Status { get; set; }
-
         public long UserId { get; set; }
 
         public long ExecTime { get; set; }
+
+        public OperationResultStatus Status { get; set; }
+
+        public enum OperationResultStatus
+        {
+            DONE,
+            EXECUTING,
+            FAIL
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace EM.Calc.DB
 
         T Load(long id);
 
-        void Update(T entity);
+        void Save(T entity);
 
         void Delete(long id);
 

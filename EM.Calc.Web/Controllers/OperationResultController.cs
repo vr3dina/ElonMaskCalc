@@ -18,7 +18,7 @@ namespace EM.Calc.Web.Controllers
         {
             ViewBag.OpRes = OperationResultRepository.GetAll();
 
-            return View();
+            return View(ViewBag.OpRes);
         }
     }
 }
