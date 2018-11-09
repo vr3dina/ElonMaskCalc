@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Calc.WinFormsApp", "..\E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Calc.Web", "..\EM.Calc.Web\EM.Calc.Web.csproj", "{F2A8B8A0-ECA4-4466-B4B7-1FF1B76E05EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Calc.DB", "EM.Calc.DB\EM.Calc.DB.csproj", "{7C540FAC-AC2C-420A-8548-AD3A027D1792}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Calc.DB", "..\EM.Calc.DB\EM.Calc.DB.csproj", "{7C540FAC-AC2C-420A-8548-AD3A027D1792}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

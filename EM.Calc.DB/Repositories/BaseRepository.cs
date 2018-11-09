@@ -11,7 +11,12 @@ namespace EM.Calc.DB
     {
         protected string connectionString;
         protected IEnumerable<PropertyInfo> properties;
-        public virtual string TableName { get; set; }
+        public string TableName;
+
+        public BaseRepository(string connection, string tableName) : this(connection)
+        {
+            TableName = tableName;
+        }
 
         public BaseRepository(string connection)
         {
@@ -46,13 +51,13 @@ namespace EM.Calc.DB
         public IEnumerable<T> GetAll()
         {
             var Fields = string.Join(",", properties.Select(p => p.Name));
-            return Load($"SELECT {Fields} FROM {TableName}");
+            return Load($"SELECT {Fields} FROM [{TableName}]");
         }
 
         public T Load(long id)
         {
             var Fields = string.Join(",", properties.Select(p => p.Name));
-            IEnumerable<T> res = Load($"SELECT {Fields} FROM {TableName} WHERE Id = {id}");
+            IEnumerable<T> res = Load($"SELECT {Fields} FROM [{TableName}] WHERE Id = {id}");
 
             if (res.Count<T>() > 0)
                 return res.ElementAt(0);

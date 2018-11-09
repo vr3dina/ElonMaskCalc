@@ -5,21 +5,17 @@ namespace EM.Calc.Web.Controllers
 {
     public class HomeController : Controller
     {
-        UserRepository userRepository;
-        OperationRepository operationRepository;
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vr3dina\OneDrive\PRG\ituniver\ElonMaskCalc\EM.Calc.Web\App_Data\ElonMusk.mdf;Integrated Security=True";
+        IEntityRepository<User> userRepository;
 
         public HomeController()
         {
-            userRepository = new UserRepository(connectionString);
-            operationRepository = new OperationRepository(connectionString);
+            userRepository = new NHUserRepository();
         }
 
         public ActionResult Index()
         {
-            
-            ViewBag.Results = userRepository.GetAll(); 
-            ViewBag.Op = operationRepository.Load(2);
+
+            ViewBag.Results = userRepository.Load(2);
 
             return View();
         }

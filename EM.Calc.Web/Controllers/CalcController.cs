@@ -1,4 +1,5 @@
-﻿using EM.Calc.Web.Models;
+﻿using EM.Calc.DB;
+using EM.Calc.DB.NHibernate;
 using System;
 using System.Linq;
 using System.Web.Mvc;
@@ -9,17 +10,14 @@ namespace EM.Calc.Web.Controllers
     {
         private Core.Calc calc { get; set; }
 
-        string connectionString =
-            @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vr3dina\OneDrive\PRG\ituniver\ElonMaskCalc\EM.Calc.Web\App_Data\ElonMusk.mdf;Integrated Security=True";
-
-        Calc.DB.IOperationRepository operationRepository;
-        Calc.DB.OperationResultRepository resultRepository;
+        IEntityRepository<OperationResult> resultRepository;
+        IOperationRepository operationRepository;
 
         public CalcController()
         {
             calc = new Core.Calc(@"C:\Users\vr3dina\OneDrive\PRG\ituniver\UserDLLS");
-            operationRepository = new Calc.DB.OperationRepository(connectionString);
-            resultRepository = new Calc.DB.OperationResultRepository(connectionString);
+            operationRepository = new NHOperationRepository();
+            resultRepository = new NHOperationResultRepository();
         }
 
         public ActionResult Execute(string oper, double[] args)
@@ -32,7 +30,7 @@ namespace EM.Calc.Web.Controllers
         [HttpGet]
         public ActionResult Input()
         {
-            InputModel model = new InputModel()
+            Models.InputModel model = new Models.InputModel()
             {
                 Operations = calc.Operations
             };
@@ -41,7 +39,7 @@ namespace EM.Calc.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Input(InputModel model)
+        public ActionResult Input(Models.InputModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -59,7 +57,7 @@ namespace EM.Calc.Web.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult AsyncInput(InputModel model)
+        public PartialViewResult AsyncInput(Models.InputModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -76,25 +74,24 @@ namespace EM.Calc.Web.Controllers
             return PartialView("Execute", res);
         }
 
-        private OperationResult Calc(string oper, double[] args)
+        private Models.OperationResult Calc(string oper, double[] args)
         {
             var res = calc.Calculate(oper, args);
 
             var operation = operationRepository.LoadByName(oper);
-            resultRepository.Save(new Calc.DB.OperationResult()
+            resultRepository.Save(new OperationResult()
             {
-                UserId = 4,
-                ExecTime = 10,
+                UserId = 2,
+                ExecTime = new Random().Next(1, 100),
 
                 OperationId = operation.Id,
                 Result = res,
                 Args = string.Join(" ", args),
                 CreationDate = DateTime.Now,
-                Status = EM.Calc.DB.OperationResult.OperationResultStatus.DONE
+                Status = OperationResult.OperationResultStatus.DONE
             });
 
-
-            return new OperationResult()
+            return new Models.OperationResult()
             {
                 Name = oper,
                 Result = res

@@ -1,16 +1,16 @@
 ﻿using EM.Calc.DB;
+using EM.Calc.DB.NHibernate;
 using System.Web.Mvc;
 
 namespace EM.Calc.Web.Controllers
 {
     public class OperationResultController : Controller
     {
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vr3dina\OneDrive\PRG\ituniver\ElonMaskCalc\EM.Calc.Web\App_Data\ElonMusk.mdf;Integrated Security=True";
-        OperationResultRepository OperationResultRepository;
+       IEntityRepository<OperationResult> OperationResultRepository;
 
         public OperationResultController()
         {
-            OperationResultRepository = new OperationResultRepository(connectionString);
+            OperationResultRepository = new NHOperationResultRepository();
         }
 
         // GET: OperationResult
